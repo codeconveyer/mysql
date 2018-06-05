@@ -32,7 +32,13 @@ s_sex bit default 1
 insert into stu (s_name, s_sex) values ('屈原', 1);
 insert into stu values (2,'杜甫', default);
 insert into stu (s_name, s_sex) values ('李白', 1), ('貂蝉',0),('魏延',1),('谢道韫',0),('杨玉环',0);
-```
+``` 
+
+- 一些基本的mysql操作指令
+`select * from stu;`
+![base](https://github.com/codeconveyer/mysql/raw/master/picture/base.jpg)  
+
+`select s_name, s_sex from stu where s_sex=1;`
 
 [1]: http://www.jb51.net/article/99626.htm "windows mysql安装配置"
 [2]: https://www.linuxidc.com/Linux/2018-03/151403.htm "虚拟机 mariadb安装配置"
