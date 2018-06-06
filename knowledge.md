@@ -39,6 +39,7 @@ insert into stu (s_name, s_sex) values ('李白', 1), ('貂蝉',0),('魏延',1),
 ![base](https://github.com/codeconveyer/mysql/raw/master/picture/base.jpg)  
 
   2. 条件显示`select s_name, s_sex from stu where s_sex=1;`  
+![require](https://github.com/codeconveyer/mysql/raw/master/picture/1.png)  
 
   3. if,case根据判定条件输出对应结果  
   `select s_name 姓名, if(s_sex=1,'男','女') 性别 from stu;`  
@@ -58,11 +59,13 @@ insert into stu (s_name, s_sex) values ('李白', 1), ('貂蝉',0),('魏延',1),
       select s_name 姓名 from stu
       union all
       select s_sex 性别 from stu;
-      ```
+      ```  
+        ![tyerror](https://github.com/codeconveyer/mysql/raw/master/picture/tyerror.png)  
   这样搜索的结果确实组合到了一个结果中,列的名称默认为第一个select语句的名称。但是因为定义表的时候,s_name为varchar类型,s_sex为bit类型,字段类型不同产生了乱码。  
   
   6. 就上文中的乱码问题,我们可以使用cast和convert来转换字段类型  
   `cast(s_sex as signed)` or `convert(s_sex, signed)`  
+![correct](https://github.com/codeconveyer/mysql/raw/master/picture/correct.png)  
   之所以不将格式转换为varchar,是因为这种方法转换类型是有限的  
       + 字符型,可带参数 char()  
       + 日期 date  
@@ -79,7 +82,8 @@ insert into stu (s_name, s_sex) values ('李白', 1), ('貂蝉',0),('魏延',1),
       `select concat_ws(',', id, s_name) from stu` 第一个为指定分隔符,如果分隔符为null,则输出为null;但是如果选择的某值为null时,该值输出为空  
       - group_concat  
       该方法的完整表达是为select id, group_concat(distinct value separator) group by id; distinct和separator都是可以进行指定的,表示是否去重和分隔符  
-      - `select s_sex, group_concat(concat_ws('-', id, s_name) separator ',') 例子 from stu group by s_sex;`
+      - `select s_sex, group_concat(concat_ws('-', id, s_name) separator ',') 例子 from stu group by s_sex;`  
+![example](https://github.com/codeconveyer/mysql/raw/master/picture/example.png)
       
 
 [1]: http://www.jb51.net/article/99626.htm "windows mysql安装配置"
