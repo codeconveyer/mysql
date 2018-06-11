@@ -53,8 +53,16 @@ insert into stu (s_name, s_sex) values ('李白', 1), ('貂蝉',0),('魏延',1),
       - 添加s_sex这列`alter table stu add column s_sex`  
       - 重命名列和修改列的数据类型`alter table stu change column s_name name varchar(20)`如果不希望改名,仍需要写重命名为原来名字就可,不能不写  
       - 修改列的数据类型`alter table stu modify column s_name varchar(5)`  
+  
+  5. 移动、复制表,修改引擎
+      - 复制表1 `create table new select * from old;` 这样可以将数据复制过来,但是没有主键与外键
+      - 复制表2 `create table new like old;` 这样可以复制表的结构包括主键,但是没有外键与数据
+      - 移动表 `alter table old_name rename to new_db.new_name` 移动表到指定的数据库中,并重命名
+      - 修改引擎 `alter table name engine=innodb|myisam;`
+          - innodb引擎 创建的表的结构和索引都在name.frm中,数据默认存储在mysql\data\ibdata1中,如果空间满了会自动创建ibdata2,创建的表不能任意移动
+          - myisam引擎 会默认创建三个表,name.frm -> 表结构、name.MYD -> 储存表数据、name.MYI -> 储存表的索引
 
-  5. union和union all 操作符用于连接两个以上的select语句的结果组合到一个结果集合中,不同的是union会自动去重,而union all则会全部显示  
+  6. union和union all 操作符用于连接两个以上的select语句的结果组合到一个结果集合中,不同的是union会自动去重,而union all则会全部显示  
       ```
       select s_name 姓名 from stu
       union all
@@ -63,7 +71,7 @@ insert into stu (s_name, s_sex) values ('李白', 1), ('貂蝉',0),('魏延',1),
         ![tyerror](https://github.com/codeconveyer/mysql/raw/master/picture/tyerror.png)  
   这样搜索的结果确实组合到了一个结果中,列的名称默认为第一个select语句的名称。但是因为定义表的时候,s_name为varchar类型,s_sex为bit类型,字段类型不同产生了乱码。  
   
-  6. 就上文中的乱码问题,我们可以使用cast和convert来转换字段类型  
+  7. 就上文中的乱码问题,我们可以使用cast和convert来转换字段类型  
   `cast(s_sex as signed)` or `convert(s_sex, signed)`  
 ![correct](https://github.com/codeconveyer/mysql/raw/master/picture/correct.png)  
   之所以不将格式转换为varchar,是因为这种方法转换类型是有限的  
@@ -75,13 +83,13 @@ insert into stu (s_name, s_sex) values ('李白', 1), ('貂蝉',0),('魏延',1),
       + 整数 signed  
       + 无符号整数 unsigned  
   
-  7. concat, concat_ws, group_concat连接字符串,显示在一个结果框内  
+  8. concat, concat_ws, group_concat连接字符串,显示在一个结果框内  
       - concat  
-      `select concat(id, s_name) 组合 from stu` concat中只要有一个值为null,则整体输出为null  
+      `select concat(id, s_name) 组合 from stu` concat中只要有一个参数为null,则整体输出为null  
       - concat_ws  
-      `select concat_ws(',', id, s_name) from stu` 第一个为指定分隔符,如果分隔符为null,则输出为null;但是如果选择的某值为null时,该值输出为空  
+      `select concat_ws(',', id, s_name) from stu` 第一个为指定分隔符,如果分隔符为null,则输出为null  
       - group_concat  
-      该方法的完整表达是为select id, group_concat(distinct value separator) group by id; distinct和separator都是可以进行指定的,表示是否去重和分隔符  
+      该方法的完整表达是为select id, group_concat(distinct field separator) group by id; distinct和separator都是可以进行指定的,表示是否去重和分隔符。如果field有一个为null,则输出为null  
       - `select s_sex, group_concat(concat_ws('-', id, s_name) separator ',') 例子 from stu group by s_sex;`  
 ![example](https://github.com/codeconveyer/mysql/raw/master/picture/example.png)
       
