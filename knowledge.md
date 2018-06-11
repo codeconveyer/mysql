@@ -59,8 +59,8 @@ insert into stu (s_name, s_sex) values ('李白', 1), ('貂蝉',0),('魏延',1),
       - 复制表2 `create table new like old;` 这样可以复制表的结构包括主键,但是没有外键与数据
       - 移动表 `alter table old_name rename to new_db.new_name` 移动表到指定的数据库中,并重命名
       - 修改引擎 `alter table name engine=innodb|myisam;`
-          - innodb引擎 创建的表的结构和索引都在name.frm中,数据默认存储在mysql\data\ibdata1中,如果空间满了会自动创建ibdata2,创建的表不能任意移动
-          - myisam引擎 会默认创建三个表,name.frm -> 表结构、name.MYD -> 储存表数据、name.MYI -> 储存表的索引
+          - innodb引擎 创建的表的结构和索引都在name.frm中,数据默认存储在mysql\data\ibdata1中,如果空间满了会自动创建`ibdata2`。创建的表不能任意移动
+          - myisam引擎 会默认创建三个表,name.frm -> 表结构、name.MYD -> 储存表数据、name.MYI -> 储存表的索引。创建的表可以任意移动
 
   6. union和union all 操作符用于连接两个以上的select语句的结果组合到一个结果集合中,不同的是union会自动去重,而union all则会全部显示  
       ```
