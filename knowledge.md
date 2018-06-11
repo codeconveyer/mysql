@@ -15,7 +15,7 @@
 - 所有mysql的操作都可以在这个可视化操作界面中通过新建查询的方法执行。
 
 ## 实际操作
-- 我们首先创建一个数据库并使用  
+- 我们首先创建一个数据库并使用,如果创建的数据库名是一个关键字的话,加上反引号就可以成功创建  
 `create database example default charset utf8;`  
 `use example;`
 
